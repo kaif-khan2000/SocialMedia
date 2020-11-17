@@ -1,0 +1,100 @@
+:root {
+  --primary-color: #CF2A27;
+  --secondary-color: #E57F7F;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+
+body {
+  height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--secondary-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+header .c-general-container {
+  display: flex;
+  flex-direction: row;
+  /* margin-top: 5rem; */
+}
+
+header .c-image-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+header .c-image-section img {
+  height: 90%;
+  width: 70%;
+  text-align: center;
+}
+
+header .c-signup-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem .5rem;
+}
+
+header .c-signup-section .c-form-group {
+  width: 350px;
+
+}
+
+header .c-signup-section .c-form-item {
+  width: 100%;
+}
+
+header .c-signup-section .c-form-group .c-selections {
+  display: flex;
+  flex-direction: row;
+}
+
+header .c-signup-section .c-form-group .c-selections input:nth-child(1) {
+  margin-right: 10px;
+}
+
+header .c-signup-section input {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: .2rem .3rem;
+  border-radius: 2px;
+}
+
+
+footer {
+  padding: 1rem;
+  border-top: 4px solid black;
+  position: fixed;
+  text-align: center;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--primary-color);
+}
+
+footer a {
+  /* color: #333; */
+  color: #eee;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: none;
+}

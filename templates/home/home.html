@@ -1,0 +1,242 @@
+{% extends 'base.html' %}
+
+{% block title %} Home
+{% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="static/css/home.css" />
+
+{% endblock css %}
+
+{% block body %}
+<!-- HEADER -->
+<header>
+    <div class="c-header-container">
+        <!-- SIDEBAR ON THE LEFT -->
+        <div class="c-side-bar-left">
+            <a href="">View Posts</a>
+            <a href="">Friend Requests({{requests}})</a>
+            <a href="">Request History</a>
+            <a href="">Tell Me About Yourself</a>
+        </div>
+        <!-- MIDDLE CONTAINER -->
+        <div class="c-middle-bar">
+            <form action="/addPost" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+                <div class="c-inner-container">
+                    <input name="post_text" type="text" placeholder="Type Something" />
+                    <div class="c-user-options">
+                        <div class="c-user-inputs">
+                            <!-- BUTTON POP UP 1 (VIDEO)-->
+                            <button data-toggle="modal" data-target="#upload-video" type="button">
+                                <i class="fas fa-video fa-2x"></i>
+                            </button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="upload-video" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="file" name="video" id="video" accept="video/*"
+                                                onchange="fileManager.videoReadURL(this);" />
+                                            <!-- <img id="video-show" src="#" alt="video" style="display: block; margin-left: 20px" /> -->
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                                onclick="reset($('#video'), '#video-show');">
+                                                Refresh
+                                            </button>
+                                            <button type="button" class="btn btn-primary save"
+                                                onclick="save('video');">Save
+                                                changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- *****************************************8 -->
+                            <!-- BUTTON POP UP 2 (IMAGE)-->
+                            <button data-toggle="modal" data-target="#upload-picture" type="button">
+                                <i class="fas fa-images fa-2x"></i>
+                            </button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="upload-picture" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Upload Picture</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="file" name="img" id="image" accept="image/*"
+                                                onchange="fileManager.imageReadURL(this);" />
+                                            <img id="img-show" src="" alt="img"
+                                                style="display: block; margin-left: 20px" />
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" id="img-refresh" class="btn btn-secondary"
+                                                data-dismiss="modal" onclick="reset($('#image'), '#img-show');">
+                                                Refresh
+                                            </button>
+                                            <button type="button" class="btn btn-primary save"
+                                                onclick="save('image');">Save
+                                                changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ******************************************* -->
+                            <!-- BUTTON POP UP 3 -->
+                            <button data-toggle="modal" data-target="#share" type="button">
+                                <i class="fas fa-location-arrow fa-2x"></i>
+                            </button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="share" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Share Picture</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">Your Friends List</div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p id="addedMessage"></p>
+                            <!-- ******************************************* -->
+                        </div>
+                        <button type="submit" style="color: #fff;" class="c-btn c-secondary-btn">POST</button>
+                    </div>
+                </div>
+            </form>
+            <!-- POST TILES -->
+            <div id="postfromajax">
+
+                
+            </div>
+            
+            <a class="text-center" href="javascript:fetchPost()">get more</a>
+            <!-- Modal -->
+            <div class="modal fade" id="comment-popup" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Comments</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body c-comments-scroll-body">
+                            <div class="c-comment-tile" id="comments2">
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="text" id="commentbox" placeholder="type something here" class="c-input" />
+                            <button type="button" class="btn btn-secondary" onclick="addComment('clear')"
+                                data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" onclick="addComment('add')">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ********************************************* -->
+            <!-- BUTTON POPUP 5 -->
+
+            <!-- Modal -->
+            <div class="modal fade" id="share-post" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Share Post with friends</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body c-comments-scroll-body">lorem200</div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ********************************************* -->
+        </div>
+        <!-- SIDEBAR ON THE RIGHT -->
+        <div class="c-side-bar-right">
+            <h2>Your Friends</h2>
+            <div id="friendsList">
+                <div class="spinner-border text-danger" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock body %}
+
+{% block js %}
+<script>
+    // RESET THE UPLOADED IMAGE
+    window.reset = function (e, elementId) {
+        console.log(elementId);
+        e.wrap("<form>").closest("form").get(0).reset();
+        $(elementId).attr("src", " ").width(30).height(30);
+        e.unwrap();
+    };
+    const fileManager = {
+        imageReadURL: input => {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $("#img-show").attr("src", e.target.result).width(100).height(100).display("inline");
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        },
+        videoReadURL: input => {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $("#video-show").attr("src", e.target.result).width(100).height(100);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        },
+    };
+
+    function save(s) {
+        var addMessage = document.getElementById('addedMessage')
+        if (s == 'image') {
+            reset($('#video'), '#video-show');
+            addMessage.innerHTML = "Image Added..."
+        }
+        if (s == 'video') {
+            reset($('#image'), '#img-show');
+            addMessage.innerHTML = "Video Added..."
+        }
+        $(".close").click();
+    }
+</script>
+<script src="static/js/home.js"></script>
+
+{% endblock js %}

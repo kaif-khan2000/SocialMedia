@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Login | Sign up</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="static/css/utils.css">
+  <link rel="stylesheet" href="static/css/landing-page.css">
+  <!-- testing MDB -->
+  <!--  -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+  <nav class="dark-nav-bottom-border">
+    <div class="nav-container">
+      <div class="c-logo">
+        <h2>Chat Book</h2>
+      </div>
+      <div class="c-form-group">
+        <div class="row">
+          <div class="c-email c-form-item form-group m-1">
+            <input class="form-control" type="email" id="semail" placeholder="enter email">
+          </div>
+          <div class="c-password c-form-item form-group m-1 ">
+            <input type="password" class="form-control" id="spassword" placeholder="enter password">
+          </div>
+          <button class="c-btn c-primary-btn c-btn-dark-border m-1" onclick="signIn()" >
+            Log in
+          </button>
+        </div>
+          <div class="row" id="message2" style="color: White;margin-left: 4px;">
+            
+          </div>
+      </div>
+    </div>
+  </nav>
+  <header>
+    <div class="c-general-container">
+      <div class="c-image-section">
+        <img src="static/img/test.png" alt="image">
+      </div>
+      <div class="c-signup-section">
+
+        <div class="c-form-group">
+          <div class="c-form-item">
+            <input type="text" id="name" placeholder="name">
+          </div>
+          <div class="c-form-item">
+            <input type="email" id="email" placeholder="email">
+          </div>
+          <div class="c-form-item">
+            <input type="password" id="password" placeholder="password (atleast 8 charecters)">
+          </div>
+          <div class="c-form-item">
+            <input type="password" id="confirmPassword" placeholder="confirm password">
+          </div>
+          <div class="c-form-item c-selections">
+            <input type="date" id="dob" placeholder="dd/mm/yyyy">
+            <!-- <input type="" placeholder="email"> -->
+            <select name="" id="gender" class="browser-default custom-select">
+              <option selected value="">Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="c-form-item c-selections" style="color: red;" id="message"></div>
+        <button type="submit" class="c-btn c-btn-dark-border c-secondary-btn" onclick="register()">Sign Up</button>
+      </div>
+    </div>
+  </header>
+  <footer>
+    <h5>2020 &copy; all Rights reserved. <a href="">Developed By Umakanth and Kaif Ali Khan</a></h5>
+  </footer>
+
+  <script>
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+
+    function register() {
+      console.log("Hello world")
+      var name = document.getElementById('name').value;
+      var email = document.getElementById('email').value;
+      var password = document.getElementById('password').value;
+      var confirmPassword = document.getElementById('confirmPassword').value;
+      var dob = document.getElementById('dob').value;
+      var gender = document.getElementById('gender').value;
+      var message = document.getElementById('message');
+      if (name == "" || email == "" || password == "" || dob == "" || gender == "") {
+        message.innerHTML = "Some Fields are empty.";
+      }
+      else if (password.length < 8) {
+        message.innerHTML = "Please enter a strong password"
+      }
+      else if (password != confirmPassword) {
+        message.innerHTML = "passwords do not match"
+      }
+      else if (email.search("@gitam.in") == -1) {
+        message.innerHTML = "you need gitam mail id to register."
+      }
+      else {
+        var token = getCookie('csrftoken');
+        $.ajax({
+          headers:{'X-CSRFToken':token},
+          type:"POST",
+          url:"/register",
+          data: {
+            'name':name,
+            'email':email,
+            'password':password,
+            'confirmPassword':confirmPassword,
+            'dob':dob,
+            'gender':gender,
+          },
+          success:function(response){
+            if(response.status == 'success') location.reload();
+            else message.innerHTML = response.message;
+          }
+        });
+      }
+    }
+
+    function signIn(){
+      console.log("hello");
+      var token = getCookie('csrftoken');
+      var message = document.getElementById('message2');
+      var email = document.getElementById('semail').value
+      var password = document.getElementById('spassword').value
+      $.ajax({
+          headers:{'X-CSRFToken':token},
+          type:"POST",
+          url:'/signIn',
+          data:{
+            'email':email,
+            'password':password,
+          },
+          success:function(response){
+            if (response.status == 'success') location.reload();
+            else message2.innerHTML = "Wrong credentials"
+          }
+      });
+
+    }
+  
+  </script>
+</body>
+
+</html>

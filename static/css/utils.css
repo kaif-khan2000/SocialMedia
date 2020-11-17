@@ -1,0 +1,178 @@
+:root {
+  --primary-color: #CF2A27;
+  --secondary-color: #E57F7F;
+}
+
+/* GENERAL UTILS */
+
+/* FONT STYLES */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+button {
+  border: none;
+  background-color: transparent;
+  color: #fff;
+}
+
+button:focus {
+  outline: none;
+}
+
+
+/* ANCHOR STYLES */
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+/* IMAGE STYLES */
+img {
+  width: 100%;
+  height: 100%;
+}
+
+img[src=""] {
+  display: none;
+}
+
+/* BUTTON STYLES */
+.c-btn {
+  border: none;
+  padding: .5rem .7rem;
+  color: #fff;
+}
+
+.c-primary-btn {
+  background-color: var(--secondary-color);
+}
+
+.c-secondary-btn {
+  background-color: var(--primary-color);
+}
+
+.c-btn-dark-border {
+  border: 1px solid black;
+}
+
+.dark-nav-bottom-border {
+  border-bottom: 4px solid black;
+}
+
+/* COMMON COLOURS */
+.c-bg-blue {
+  color: #0056B3;
+}
+
+
+/* CONTAINER STYLES */
+.c-general-container {
+  max-width: 1100px;
+  margin: auto;
+  overflow: hidden;
+  padding: 1rem;
+}
+
+/* FORM STYLES */
+
+/* NAV UTILS */
+nav {
+  background-color: var(--primary-color);
+  height: 5rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  color: #fff;
+}
+
+/* WHEN USER IS NOT SIGNED UP */
+.nav-container {
+  height: 100%;
+  max-width: 1300px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* margin: 0 2rem; */
+  padding: 0 1rem;
+}
+
+nav .nav-container .c-form-group form {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 0 .3rem;
+}
+
+nav .nav-container .c-form-group form input {
+  padding: .3rem .1rem;
+  font-size: 1.1rem;
+  margin-right: .3rem;
+}
+
+.nav-container h2 {
+  margin: 0;
+}
+
+/* WHEN USER IS SIGNED UP */
+.nav-container .c-search-main {
+  width: 40%;
+}
+
+.nav-container .c-search-main input {
+  width: 100%;
+  padding: .5rem .1rem;
+  border-radius: 3px;
+  font-size: 1rem;
+}
+
+.nav-container .c-nav-items {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  width: 30%;
+}
+
+.nav-container .c-nav-items .c-profile-img {
+  width: 50px;
+  height: 50px;
+}
+
+.nav-container .c-nav-items .c-gear {
+  flex: 1;
+}
+
+.nav-container .c-nav-items .c-gear button {
+  background-color: transparent;
+  border: none;
+}
+
+/* .dropdown {
+  z-index: 5;
+} */
+
+.nav-container .c-nav-items .c-gear button:focus {
+  outline: none;
+}
+
+.nav-container .c-nav-items .c-profile-name {
+  flex: 3;
+  margin-left: 10px;
+}
+
+.nav-container .c-nav-items .c-profile-name h3 {
+  font-size: 1.3rem;
+}
